@@ -1,0 +1,27 @@
+.home{
+    background-color: aliceblue;
+    min-height: 100vh;
+    &__category {
+        display: flex;
+        overflow-x: scroll;
+        gap: 1rem;
+        @media (max-width: 850px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        @media (max-width: 550px) {
+          grid-template-columns: 1fr;
+        }
+      }  
+}
+.container{
+    border: 2px solid red;
+}
+.products {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width:100vw;
+}

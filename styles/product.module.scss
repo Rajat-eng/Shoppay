@@ -1,0 +1,29 @@
+.product {
+  min-height: 100vh;
+  // background-color: rgb(234, 223, 223);
+  &__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem;
+    
+  }
+  .path {
+    font-size: 14px;
+    color: #666;
+  }
+  &__main {
+    // position: relative;
+    display: grid;
+    margin-top: 1rem;
+    gap: 1rem;
+    grid-template-columns: 1.5fr 2fr;
+    // @media (min-width: 800px) {
+    //   grid-template-columns: 1fr 350px;
+    //   gap: 2rem;
+    // }
+    // @media (min-width: 1160px) {
+    //   grid-template-columns: 1fr 1fr;
+    //   gap: 2rem;
+    // }
+  }
+}
