@@ -25,3 +25,31 @@ export const removeDuplicates = (array) => {
 export const randomize = (array) => {
   return [...array].sort(() => 0.5 - Math.random());
 };
+
+export const debounce = (func, delay) => {
+  let timerId;
+  return (...args) => {
+    console.log(args)
+    clearTimeout(timerId);
+    timerId = setTimeout(() => func.apply(null, args), delay);
+  };
+};
+
+export const throttle = (func, delay=1000) => {
+  let timerId;
+  let lastExecTime = 0;
+
+  return (...args) => {
+    const currentTime = new Date().getTime();
+    if (currentTime - lastExecTime > delay) {
+      func.apply(null, args);
+      lastExecTime = currentTime;
+    } else {
+      clearTimeout(timerId);
+      timerId = setTimeout(() => {
+        func.apply(null, args);
+        lastExecTime = new Date().getTime();
+      }, delay);
+    }
+  };
+};

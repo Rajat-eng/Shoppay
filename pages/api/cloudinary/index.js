@@ -29,8 +29,6 @@ export const config = {
     bodyParser: false,
   },
 };
-const dUri=new DataURI()
-const dataUri = buffer => dUri.format('.jpg', buffer);
 
 handler.post(async (req, res) => {
   try {
@@ -38,7 +36,6 @@ handler.post(async (req, res) => {
     let files=Object.values(req.files).flat()
     const {path}=req.body;
     for(const file of files){
-       const fileBuffer=file.data
        const img=await uploadToCloudinaryHandler(file,path)
        images.push(img)
     }

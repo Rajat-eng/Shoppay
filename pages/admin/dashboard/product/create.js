@@ -70,25 +70,25 @@ export default function Create({ parents, categories }) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   // console.log("create product",product)
-  //   useEffect(() => {
-  //     const getParentData = async () => {
-  //       const { data } = await axios.get(`/api/product/${product.parent}`);
-  //       console.log(data);
-  //       if (data) {
-  //         setProduct({
-  //           ...product,
-  //           name: data.name,
-  //           description: data.description,
-  //           brand: data.brand,
-  //           category: data.category,
-  //           subCategories: data.subCategories,
-  //           questions: [],
-  //           details: [],
-  //         });
-  //       }
-  //     };
-  //     getParentData();
-  //   }, [product.parent]);
+    useEffect(() => {
+      const getParentData = async () => {
+        const { data } = await axios.get(`/api/product/${product.parent}`);
+        console.log(data);
+        if (data) {
+          setProduct({
+            ...product,
+            name: data.name,
+            description: data.description,
+            brand: data.brand,
+            category: data.category,
+            subCategories: data.subCategories,
+            questions: [],
+            details: [],
+          });
+        }
+      };
+      // getParentData();
+    }, [product.parent]);
 
   useEffect(() => {
     async function getSubs() {
@@ -124,7 +124,7 @@ export default function Create({ parents, categories }) {
   };
 
   const createProductHandler = async () => {
-    // setLoading(true);
+    setLoading(true);
     let uploaded_images = [];
     let style_img = "";
     if (images) {
@@ -135,36 +135,32 @@ export default function Create({ parents, categories }) {
         form.append('files',file)
       }) 
       form.append("path",path);
-      // for(let pair of form.entries()){
-      //   console.log(pair[0],pair[1])
-      // }
       uploaded_images = await uploadImages(form);
     }
-    // if (product.color.image) {
-    //   let temp = dataURItoBlob(product.color.image);
-    //   let path = "product style images";
-    //   let formData = new FormData();
-    //   formData.append("path", path);
-    //   formData.append("file", temp);
-    //   let cloudinary_style_img = await uploadImages(formData);
-    //   // console.log(cloudinary_style_img)
-    //   // style_img = cloudinary_style_img[0].url;
-    // }
-    // try {
-    //   const { data } = await axios.post("/api/admin/product", {
-    //     ...product,
-    //     images: uploaded_images,
-    //     color: {
-    //       image: style_img,
-    //       color: product.color.color,
-    //     },
-    //   });
-    //   setLoading(false);
-    //   toast.success(data.message);
-    // } catch (error) {
-    //   setLoading(false);
-    //   toast.error(error.response.data.message);
-    // }
+    if (product.color.image) {
+      let temp = dataURItoBlob(product.color.image);
+      let path = "product style images";
+      let formData = new FormData();
+      formData.append("path", path);
+      formData.append("file", temp);
+      let cloudinary_style_img = await uploadImages(formData);
+      style_img = cloudinary_style_img[0].url;
+    }
+    try {
+      const { data } = await axios.post("/api/admin/product", {
+        ...product,
+        images: [...uploaded_images],
+        color: {
+          image: style_img,
+          color: product.color.color,
+        },
+      });
+      toast.success(data.message);
+    } catch (error) {
+      toast.error("Error in uploading product");
+    }finally{
+      setLoading(false);
+    }
   };
   return (
     <Layout>
@@ -314,9 +310,6 @@ export default function Create({ parents, categories }) {
               setImages={setDescriptionImages}
               setColorImage={setColorImage}
             />
-           
-       
-          
             */}
             <button
               className={`${styles.btn} ${styles.btn__primary} ${styles.submit_btn}`}

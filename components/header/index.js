@@ -4,13 +4,13 @@ import Top from './top';
 import Search from './search';
 
 
-export default function header({country}){
+export default function header({country,searchHandler}){
     
     return (
         <header className={styles.header}>
             <Ad />
             <Top country={country} />
-            <Search />
+            <Search searchHandler={searchHandler} />
         </header>
     )
 }
